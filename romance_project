@@ -1,0 +1,53 @@
+let alphabet = "abcdefghijklmnopqrstuvwxyz "
+function parseText(corpus){
+  let newCorpus = "";
+   corpus = corpus.toLowerCase();
+  for (let i = 0; i < corpus.length; i++){
+    if (alphabet.includes(corpus[i])){
+      newCorpus += corpus[i];
+    }
+  }
+  return newCorpus.split(" ")
+}
+function generateWordPairs (corpus){
+  let chain = {};
+  let words = parseText(corpus);
+for (let i = 0; i < words.length - 1; i++){ 
+  let word = words[i];
+  if (!Array.isArray(chain[word])) {
+  chain[word] = [];  
+  }
+  chain[word].push(words[i + 1]);  
+  }
+  return chain
+} 
+
+function getRandomInt(value){
+  return Math.floor(Math.random() * value);
+}
+
+
+function writeLine(textPairs, numWord){
+  let newString = "";
+  let corpusList = Object.keys(textPairs);
+  let randomInd = getRandomInt(corpusList.length);
+  let firstWord = corpusList[randomInd];
+for (let i = 0; i < numWord; i++){
+  let startWord = textPairs[firstWord];
+  let randomInd2 = getRandomInt(startWord.length);
+  let randomWord = startWord[randomInd2];
+  newString = firstWord + " " + randomWord;
+  }
+  return newString
+}  
+
+function generatePoem(corpus, lines){
+  let poem ="";
+  let parse = parseText(corpus);
+  let newObj = generateWordPairs(parse);
+  for (let i = 0; i < lines; i++){
+    let newLine = writeLine(newObj)
+    poem += newLine
+  }
+ return poem
+}
